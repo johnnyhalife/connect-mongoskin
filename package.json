@@ -1,0 +1,24 @@
+{
+  "name": "connect-mongoskin",
+  "version": "0.0.1",
+  "description": "Connect's durable sessions middleware backed by MongoSkin",
+  "keywords": [
+    "connect",
+    "session",
+    "mongoskin",
+    "mongodb",
+    "rack"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/johnnyhalife/connect-mongoskin.git"
+  },
+  "dependencies": {
+    "connect": "2.3.9",
+    "mongoskin": "0.4.4"
+  },
+  "engines": {
+    "node": ">=0.6.0",
+    "npm": ">=1.0.0"
+  }
+}
