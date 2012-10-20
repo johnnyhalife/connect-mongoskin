@@ -14,7 +14,7 @@ var Store = require('connect').session.Store,
  * @param {*=}				options
  * @param {Function}	callback
  */
-module.exports = function (skinDb, options, callback) {
+module.exports = SkinStore = function (skinDb, options, callback) {
 	if(!skinDb) throw(new Error('You must provide a `db` (SkinDb object)'));
 
 	this.db = skinDb;
@@ -22,73 +22,69 @@ module.exports = function (skinDb, options, callback) {
 
 	Store.call(this, options);
 };
-
-(function (SkinStore) {
-	"use strict";
 	
-	/** SkinStore extendes Store from Connect */
-	util.inherits(SkinStore, Store);
+/** SkinStore extendes Store from Connect */
+util.inherits(SkinStore, Store);
 
-	/**
-	 * Gets a session row from the persistance store
-	 *
-	 * @param  {string}   sid
-	 * @param  {Function} callback
-	 */
-	SkinStore.prototype.get = function (sid, callback) {
-		this.sessions.findOne({_id: sid }, function (err, row) {
-			if(err || !row) return callback(err, row);
+/**
+ * Gets a session row from the persistance store
+ *
+ * @param  {string}   sid
+ * @param  {Function} callback
+ */
+SkinStore.prototype.get = function (sid, callback) {
+	this.sessions.findOne({_id: sid }, function (err, row) {
+		if(err || !row) return callback(err, row);
 
-			var session = typeof row.session === 'string' ? JSON.parse(row.session) : row.session;
-			callback(null, session);
-		});
-	};
+		var session = typeof row.session === 'string' ? JSON.parse(row.session) : row.session;
+		callback(null, session);
+	});
+};
 
-	/**
-	 * Stores a session row on the persistance store.
-	 *
-	 * @param {string}		sid
-	 * @param {*}					session
-	 * @param {Function}	callback
-	 */
-	SkinStore.prototype.set = function (sid, session, callback) {
-		var values = {_id: sid, session: JSON.stringify(session) };
+/**
+ * Stores a session row on the persistance store.
+ *
+ * @param {string}		sid
+ * @param {*}					session
+ * @param {Function}	callback
+ */
+SkinStore.prototype.set = function (sid, session, callback) {
+	var values = {_id: sid, session: JSON.stringify(session) };
 
-		if(session && session.cookie && session.cookie.expires) {
-			values.expires = Date.parse(session.cookie.expires);
-		}
+	if(session && session.cookie && session.cookie.expires) {
+		values.expires = Date.parse(session.cookie.expires);
+	}
 
-		this.sessions.update({_id: sid}, values, {upsert: true}, function () {
-			callback.apply(this, arguments);
-		});
-	};
+	this.sessions.update({_id: sid}, values, {upsert: true}, function () {
+		callback.apply(this, arguments);
+	});
+};
 
-	/**
-	 * Destroys a session from the persistance store.
-	 *
-	 * @param  {string}   sid
-	 * @param  {Function} callback
-	 */
-	SkinStore.prototype.destroy = function (sid, callback) {
-		this.sessions.remove({_id: sid}, {safe: false}, callback);
-	};
+/**
+ * Destroys a session from the persistance store.
+ *
+ * @param  {string}   sid
+ * @param  {Function} callback
+ */
+SkinStore.prototype.destroy = function (sid, callback) {
+	this.sessions.remove({_id: sid}, {safe: false}, callback);
+};
 
-	/**
-	 * Wipes out the persitance store.
-	 *
-	 * @param  {Function} callback
-	 */
-	SkinStore.prototype.clear = function (callback) {
-		this.sessions.drop(callback);
-	};
+/**
+ * Wipes out the persitance store.
+ *
+ * @param  {Function} callback
+ */
+SkinStore.prototype.clear = function (callback) {
+	this.sessions.drop(callback);
+};
 
-	/**
-	 * Returns the number of sessions currently available
-	 * on the persitance store.
-	 *
-	 * @param  {Function} callback
-	 */
-	SkinStore.prototype.count = function (callback) {
-		this.sessions.count(callback);
-	};
-})(module.exports);
+/**
+ * Returns the number of sessions currently available
+ * on the persitance store.
+ *
+ * @param  {Function} callback
+ */
+SkinStore.prototype.count = function (callback) {
+	this.sessions.count(callback);
+};
