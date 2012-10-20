@@ -15,7 +15,7 @@ Use `git clone` to download the source and make it available in your project wir
 or 
 
 ```bash
-  npm install connect-mongoskin
+npm install connect-mongoskin
 ```
 
 ## Usage
@@ -46,5 +46,4 @@ The lib reuses an existing client, so pass in the SkinDb and options if needed.
 
 ### Meta
 
-Copyright(c) 2012 Johnny Halife <johnny@mural.ly>
-Mantained by Mural.ly Team <dev@mural.ly>
+Copyright(c) 2012 @johnnyhalife <johnny at mural.ly>
