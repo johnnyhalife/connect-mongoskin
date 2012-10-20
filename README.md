@@ -14,7 +14,9 @@ Use `git clone` to download the source and make it available in your project wir
 
 or 
 
+```bash
   npm install connect-mongoskin
+```
 
 ## Usage
 
