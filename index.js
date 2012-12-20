@@ -19,7 +19,13 @@ module.exports = SkinStore = function (skinDb, options, callback) {
 
 	this.db = skinDb;
 	this.sessions = this.db.collection('sessions_');
-
+  
+  this.sessions.ensureIndex({expires: 1}, {expireAfterSeconds: 0}, function(err, result) {
+    if (err) {
+      throw new Error('Error setting TTL index on collection');
+    }
+  });
+  
 	Store.call(this, options);
 };
 	
@@ -52,7 +58,7 @@ SkinStore.prototype.set = function (sid, session, callback) {
 	var values = {_id: sid, session: JSON.stringify(session) };
 
 	if(session && session.cookie && session.cookie.expires) {
-		values.expires = Date.parse(session.cookie.expires);
+		values.expires = new Date(session.cookie.expires);
 	}
 
 	this.sessions.update({_id: sid}, values, {upsert: true}, function () {
