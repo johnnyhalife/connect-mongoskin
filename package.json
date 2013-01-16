@@ -1,6 +1,6 @@
 {
   "name": "connect-mongoskin",
-  "version": "0.0.3",
+  "version": "0.1.0",
   "description": "Connect's durable sessions middleware backed by MongoSkin",
   "keywords": [
     "connect",
@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "connect": "2.3.9",
-    "mongoskin": "0.4.4"
+    "mongoskin": "0.5.0"
   },
   "engines": {
     "node": ">=0.6.0",
