@@ -1,6 +1,6 @@
 {
   "name": "connect-mongoskin",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Connect's durable sessions middleware backed by MongoSkin",
   "keywords": [
     "connect",
