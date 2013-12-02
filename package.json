@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "connect": "2.3.9",
-    "mongoskin": "0.5.0"
+    "mongoskin": "0.6.1"
   },
   "engines": {
     "node": ">=0.6.0",
