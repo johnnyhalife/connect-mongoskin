@@ -1,4 +1,4 @@
-# MongoSkin Session Store
+# MongoSkin Session Store (Unmaintained)
 
 Simple Session Store for [Connect() Framework][1] session Middleware that leverages an existing connection from [MongoSkin][3]
 
