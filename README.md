@@ -46,4 +46,3 @@ The lib reuses an existing client, so pass in the SkinDb and options if needed.
 
 ### Meta
 
-Originally written by [@johnnyhalife](http://twitter.com/johnnyhalife) (johnny at mural.ly)
