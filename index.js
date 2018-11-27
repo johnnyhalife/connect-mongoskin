@@ -3,7 +3,7 @@
  * Copyright(c) 2012 Johnny Halife <johnny@mural.ly>
  * Mantained by Mural.ly Team <dev@mural.ly>
  */
-var Store = require('connect').session.Store,
+var Store = require('express-session').Store,
 		util = require('util');
 
 /**
