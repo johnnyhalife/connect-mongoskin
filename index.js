@@ -86,6 +86,32 @@ SkinStore.prototype.clear = function (callback) {
  *
  * @param  {Function} callback
  */
-SkinStore.prototype.count = function (callback) {
+SkinStore.prototype.length = function (callback) {
 	this.sessions.count(callback);
 };
+
+/**
+ * Returns the number of sessions currently available
+ * on the persitance store (for backwards compatability)
+ *
+ * @param  {Function} callback
+ */
+SkinStore.prototype.count = SkinStore.prototype.length;
+
+/**
+ * Returns all sessions
+ *
+ * @param  {Function} callback
+ */
+SkinStore.prototype.all = function (callback) {
+	this.sessions.find().toArray(callback);
+};
+
+/**
+ * Reset time to live on session, to prevent it from being deleted.
+ *
+ * @param {string}		sid
+ * @param {*}					session
+ * @param {Function}	callback
+ */
+SkinStore.prototype.touch = SkinStore.prototype.set
