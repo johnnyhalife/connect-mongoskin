@@ -19,7 +19,7 @@ module.exports = SkinStore = function (skinDb, options, callback) {
 
 	this.db = skinDb;
 	this.sessions = this.db.collection('sessions_');
-  this.sessions.ensureIndex({expires: 1}, {expireAfterSeconds: 0}, function() {});
+  this.sessions.createIndex({expires: 1}, {expireAfterSeconds: 0}, function() {});
 
 	Store.call(this, options);
 };
@@ -56,7 +56,7 @@ SkinStore.prototype.set = function (sid, session, callback) {
 		values.expires = new Date(session.cookie.expires);
 	}
 
-	this.sessions.update({_id: sid}, values, {upsert: true}, function () {
+	this.sessions.replaceOne({_id: sid}, values, {upsert: true}, function () {
 		callback.apply(this, arguments);
 	});
 };
@@ -68,7 +68,7 @@ SkinStore.prototype.set = function (sid, session, callback) {
  * @param  {Function} callback
  */
 SkinStore.prototype.destroy = function (sid, callback) {
-	this.sessions.remove({_id: sid}, {safe: false}, callback);
+	this.sessions.deleteOne({_id: sid}, {safe: false}, callback);
 };
 
 /**
@@ -87,7 +87,7 @@ SkinStore.prototype.clear = function (callback) {
  * @param  {Function} callback
  */
 SkinStore.prototype.length = function (callback) {
-	this.sessions.count(callback);
+	this.sessions.countDocuments(callback);
 };
 
 /**
