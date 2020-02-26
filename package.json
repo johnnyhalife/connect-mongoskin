@@ -14,9 +14,7 @@
     "url": "git://github.com/johnnyhalife/connect-mongoskin.git"
   },
   "dependencies": {
-    "express-session": "1.15.6",
-    "mongoskin": "2.1.0",
-    "mongodb": "2.2.36"
+    "express-session": "1.15.6"
   },
   "engines": {
     "node": ">=0.6.0",
