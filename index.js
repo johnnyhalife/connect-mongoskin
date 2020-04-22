@@ -3,7 +3,7 @@
  * Copyright(c) 2012 Johnny Halife <johnny@mural.ly>
  * Mantained by Mural.ly Team <dev@mural.ly>
  */
-var Store = require('connect').session.Store,
+var Store = require('express-session').Store,
 		util = require('util');
 
 /**
@@ -19,7 +19,7 @@ module.exports = SkinStore = function (skinDb, options, callback) {
 
 	this.db = skinDb;
 	this.sessions = this.db.collection('sessions_');
-  this.sessions.ensureIndex({expires: 1}, {expireAfterSeconds: 0}, function() {});
+  this.sessions.createIndex({expires: 1}, {expireAfterSeconds: 0}, function() {});
 
 	Store.call(this, options);
 };
@@ -56,7 +56,7 @@ SkinStore.prototype.set = function (sid, session, callback) {
 		values.expires = new Date(session.cookie.expires);
 	}
 
-	this.sessions.update({_id: sid}, values, {upsert: true}, function () {
+	this.sessions.replaceOne({_id: sid}, values, {upsert: true}, function () {
 		callback.apply(this, arguments);
 	});
 };
@@ -68,7 +68,7 @@ SkinStore.prototype.set = function (sid, session, callback) {
  * @param  {Function} callback
  */
 SkinStore.prototype.destroy = function (sid, callback) {
-	this.sessions.remove({_id: sid}, {safe: false}, callback);
+	this.sessions.deleteOne({_id: sid}, {safe: false}, callback);
 };
 
 /**
@@ -86,6 +86,32 @@ SkinStore.prototype.clear = function (callback) {
  *
  * @param  {Function} callback
  */
-SkinStore.prototype.count = function (callback) {
-	this.sessions.count(callback);
+SkinStore.prototype.length = function (callback) {
+	this.sessions.countDocuments(callback);
 };
+
+/**
+ * Returns the number of sessions currently available
+ * on the persitance store (for backwards compatability)
+ *
+ * @param  {Function} callback
+ */
+SkinStore.prototype.count = SkinStore.prototype.length;
+
+/**
+ * Returns all sessions
+ *
+ * @param  {Function} callback
+ */
+SkinStore.prototype.all = function (callback) {
+	this.sessions.find().toArray(callback);
+};
+
+/**
+ * Reset time to live on session, to prevent it from being deleted.
+ *
+ * @param {string}		sid
+ * @param {*}					session
+ * @param {Function}	callback
+ */
+SkinStore.prototype.touch = SkinStore.prototype.set
